@@ -1,0 +1,32 @@
+grid-container#habitat-container {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    grid-gap: 10px;
+    grid-template-areas: "column-1 column-2";
+}
+grid-item.habitat-item {
+    display: flex;
+    flex-direction: column;
+}
+grid-item#habitat-side-item {
+    box-shadow: 2px 0 1px -1px grey;
+}
+grid-item.habitat-item {
+    height: 80vh;
+}
+#env-header {
+    font-size: 30px;
+}
+.side-panel {
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.side-nav-pill {
+    display: block !important;
+}
+.side-nav-pill a {
+    margin-top: 25px;
+    font-size: 25px;
+}

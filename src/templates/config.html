@@ -1,0 +1,92 @@
+{% extends "habitat-nav.html" %}
+{% import "macros/forms.html" as f %}
+
+{% block content %}
+	<div class="config-content">
+		<div><div class="row">
+			<h2 class="text-center fancy">Config</h2>
+		</div></div>
+
+		<form action="{{ url_for('habitat.config') }}" method="POST" id="env_config_form_id">
+			{{ form.csrf_token }}
+
+			<div class="config-body">
+				<div class="config-row">
+					{{ f.adjustable_tile(
+							label="Day Low Set Point",
+							name="day_l_sp",
+							cls="day-temp",
+							value=form.day_l_sp.data,
+							errors=form.day_l_sp.errors,
+					)}}
+					{{ f.adjustable_tile(
+							label="Day High Set Point",
+							name="day_h_sp",
+							cls="day-temp",
+							value=form.day_h_sp.data,
+							errors=form.day_h_sp.errors,
+					)}}
+				</div>
+				<div class="config-row">
+					{{ f.adjustable_tile(
+							label="Night Low Set Point",
+							name="night_l_sp",
+							cls="night-temp",
+							value=form.night_l_sp.data,
+							errors=form.night_l_sp.errors,
+					)}}
+					{{ f.adjustable_tile(
+							label="Night High Set Point",
+							name="night_h_sp",
+							cls="night-temp",
+							value=form.night_h_sp.data,
+							errors=form.night_h_sp.errors,
+					)}}
+				</div>
+				<div class="config-row">
+					{{ f.adjustable_tile(
+							label="Lights On Time",
+							name="lights_on_time",
+							type="time",
+							cls="time",
+							value=form.lights_on_time._value(),
+							errors=form.lights_on_time.errors,
+					)}}
+					{{ f.adjustable_tile(
+							label="Lights Off Time",
+							name="lights_off_time",
+							type="time",
+							cls="time",
+							value=form.lights_off_time._value(),
+							errors=form.lights_off_time.errors,
+					)}}
+					</div>
+				</div>
+				<div class="config-row">
+					{{ f.adjustable_tile(
+							label="Humidity Low Set Point",
+							name="humidity_l_sp",
+							cls="humidity",
+							value=form.humidity_l_sp.data,
+							errors=form.humidity_l_sp.errors,
+					)}}
+					{{ f.adjustable_tile(
+							label="Humidity High Set Point",
+							name="humidity_h_sp",
+							cls="humidity",
+							value=form.humidity_h_sp.data,
+							errors=form.humidity_h_sp.errors,
+					)}}
+					</div>
+				</div>
+				<div class="save">
+					<div class="mt-2 mb-4 text-center main-text paragraph-large">
+						{{ form.created.label }} - {{ form.created.data | pretty_dt }}
+					</div>
+					<button id="save-btn" class="button mb-4" type="submit">Save Changes</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+{% endblock %}

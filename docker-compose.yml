@@ -1,0 +1,73 @@
+version: "3"
+services:
+  habitat-db:
+    container_name: habitat-db
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PW}
+    ports:
+      - "5431:5431"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes: 
+      - ../habitat-api/db-data/:/app/postgres/habitat-data
+      # - ../habitat-api/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  habitat-api:
+    image: habitat-api_habitat-api:latest
+    depends_on:
+      - habitat-db
+    command:
+      sh -c "cd api && flask db upgrade && python app.py"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../habitat-api/:/app
+
+
+  janet-db:
+    container_name: janet-db
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=${JANET_POSTGRES_HOST}
+      - POSTGRES_PORT=${JANET_POSTGRES_PORT}
+      - POSTGRES_USER=${JANET_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${JANET_POSTGRES_PW}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes: 
+      - ./db-data/:/app/postgres/janet-data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  janet:
+    container_name: janet
+    restart: always
+    build: .
+    depends_on:
+      - janet-db
+      - habitat-api
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
