@@ -1,0 +1,18 @@
+{% extends "habitat-nav.html" %}
+
+{% block content %}
+    
+    <div class="habitat-content">
+        <h2 class="text-center fancy">Current Conditions</h2>
+        {% if reading %}
+            {% if reading.temperature and reading.humidity %}
+                <p class="text-center">Temp - {{ reading.temperature }}  --  Hum - {{ reading.humidity }}</p>
+            {% else %}
+                <p class="text-center">{{ reading.error }}</p>
+            {% endif %}
+        {% else %}
+            <p class="text-center">A reading has not yet been taken!!</p>
+        {% endif %}
+    </div>
+
+{% endblock %} 

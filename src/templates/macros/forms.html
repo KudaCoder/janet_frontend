@@ -1,0 +1,16 @@
+{% macro adjustable_tile(label, name, value='', type='text', cls='', errors=[], data={} ) %}
+	{% if errors %}
+		{% set cls = cls + " is-invalid" %}
+	{% endif %}
+	<div class="tile {{ cls }} adjustable">
+		<label class="main-text bold-text" for="{{ name }}">{{ label }}</label>
+		<div class="up-arrow">
+			<i class="fa-solid fa-chevron-up"></i>
+		</div>
+		<input name="{{ name }}" id="{{ name }}" class="main-text bold-text" type="{{ type }}" value="{{ value }}" {% for key, value in data.items() %}data-{{ key }}="{{ value }}"{% endfor %} required>
+
+		<div class="down-arrow">
+			<i class="fa-solid fa-chevron-down"></i>
+		</div>
+	</div>
+{% endmacro %}

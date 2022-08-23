@@ -1,0 +1,10 @@
+.mic {
+	height: 100px;
+	width: 100px;
+}
+
+.mic > img {
+	height: 100%;
+	width:  100%;
+	object-fit: cover;
+}

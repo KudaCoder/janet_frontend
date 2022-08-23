@@ -1,0 +1,23 @@
+{% extends "habitat-nav.html" %}
+
+{% block content %}
+	<div class="stats-content">
+		<h2 class="text-center fancy">Stats</h2>
+	</div>
+	
+	<h3 class="dopey">Config</h3>
+	<p>Number of Configs Saved: {{ stats.number_of_config }}</p>
+	<p>Highest Day Set Point: {{ stats.highest_day_sp }}</p>
+	<p>Lowest Day Set Point: {{ stats.lowest_day_sp }}</p>
+	<p>Highest Night Set Point: {{ stats.highest_night_sp }}</p>
+	<p>Lowest Night Set Point: {{ stats.lowest_night_sp}}</p>
+	<p>Most Recent Config: <a href="#">{{ stats.most_recent_config.created | pretty_dt }}</a></p>
+    <br>
+	<h3 class="dopey">Readings</h3>
+	<p>Number of Readings Taken: {{ stats.number_of_readings }}</p>
+	<p>Highest Temperature Reading: <a href="#">{{ stats.highest_temp_reading.temperature }}</a></p>
+	<p>Lowest Temperature Reading: <a href="#">{{ stats.lowest_temp_reading.temperature }}</a></p>
+	<p>Highest Humidity Reading: <a href="#">{{ stats.highest_hum_reading.humidity }}</a></p>
+	<p>Lowest Humidity Reading: <a href="#">{{ stats.lowest_hum_reading.humidity }}</a></p>
+
+{% endblock %}

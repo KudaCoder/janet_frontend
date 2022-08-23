@@ -1,0 +1,64 @@
+from wtforms import (
+    DateTimeField,
+    FloatField,
+    TimeField,
+    IntegerField,
+    SelectField,
+    StringField,
+    PasswordField,
+    SubmitField,
+)
+from wtforms.validators import DataRequired
+from flask_wtf import FlaskForm
+
+from datetime import time, datetime
+
+
+class ConfigForm(FlaskForm):
+    day_h_sp = FloatField("Day High Set Point", validators=[DataRequired()])
+    day_l_sp = FloatField("Day Low Set Point", validators=[DataRequired()])
+    night_h_sp = FloatField("Night High Set Point", validators=[DataRequired()])
+    night_l_sp = FloatField("Night Low Set Point", validators=[DataRequired()])
+    lights_on_time = TimeField("Day Lights On Time", validators=[DataRequired()])
+    lights_off_time = TimeField("Day Lights Off Time", validators=[DataRequired()])
+    humidity_h_sp = FloatField("Humidity High Set Point", validators=[DataRequired()])
+    humidity_l_sp = FloatField("Humidity Low Set Point", validators=[DataRequired()])
+    created = DateTimeField("Config Created")
+
+    def populate_form(self, data):
+        for name, value in data.items():
+            try:
+                field = self[name]
+            except KeyError:
+                continue
+            if isinstance(value, str):
+                try:
+                    value = time.fromisoformat(value)
+                except ValueError:
+                    try:
+                        value = datetime.fromisoformat(value)
+                    except ValueError:
+                        value = float(value)
+            field.data = value
+        return self
+
+
+class ReadingForm(FlaskForm):
+    unit = SelectField(
+        "Unit of Time",
+        choices=[("minutes", "Minutes"), ("hours", "Hours"), ("days", "Days")],
+    )
+    time = IntegerField("Time Period")
+
+
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
+
+
+class RegisterForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    password1 = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("Register")
